@@ -14,13 +14,11 @@ import { NextPage } from "next";
 import { FC, ReactElement, ReactNode, useState } from "react";
 
 import Layout from "../components/layout";
+import { createApolloTMNextClient } from "@utilities/createApolloClient";
 
 const clientSideEmotionCache = createEmotionCache();
 
-const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_SUBGRAPH_URL,
-  cache: new InMemoryCache(),
-});
+const client = createApolloTMNextClient();
 
 type AppPropsWithChildren = AppProps & {
   children?: ReactNode;

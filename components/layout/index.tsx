@@ -9,51 +9,47 @@ import { Box } from "@mui/material";
 
 import Navbar from "@components/navbar";
 import Footer from "@components/footer";
+import ClientOnly from "@components/client-only/ClientOnly";
+import { useGetCollectionsQuery } from "@graphql/generated/next/react-apollo";
 
 interface Props {
-  // layout props
   themeMode: string;
   setThemeMode: (arg0: string) => void;
 }
 
-const Layout: FC<Props> = ({ children, themeMode, setThemeMode }) => {
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  if (!hasMounted) {
-    return (
-      <Box>
-        <p>Loading...</p>
-      </Box>
-    );
-  }
-
-  // useQuery
+const ClientOnlyLayout: FC<Props> = ({ children, themeMode, setThemeMode }) => {
   return (
-    <>
+    <ClientOnly>
+      <Layout themeMode={themeMode} setThemeMode={setThemeMode}>
+        {children}
+      </Layout>
+    </ClientOnly>
+  );
+};
+
+const Layout: FC<Props> = ({ children, themeMode, setThemeMode }) => {
+  // useQuery
+
+  const { data, loading, error } = useGetCollectionsQuery();
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  console.log(data);
+  console.log(
+    process.env.NEXT_PUBLIC_SUBGRAPH_URL,
+    process.env.NEXT_PUBLIC_CHAIN_IDS
+  );
+
+  return (
+    <ClientOnly>
       <Navbar collections={[]} />
       <Toolbar />
 
       <main>{children}</main>
 
-      {/* <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer> */}
-
       <Footer themeMode={themeMode} setThemeMode={setThemeMode} />
-    </>
+    </ClientOnly>
   );
 };
 

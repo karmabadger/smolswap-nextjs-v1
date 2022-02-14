@@ -49,7 +49,7 @@ const Navbar: FC<Props> = ({
   //   openQuickCheckoutModal,
   //   setOpenQuickCheckoutModal,
 }) => {
-  console.log(collections);
+  //   console.log(collections);
   const theme = useTheme();
   const matchesDownMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesDownSM = useMediaQuery(theme.breakpoints.down("sm"));

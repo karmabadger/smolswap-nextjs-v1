@@ -9,7 +9,9 @@
     "introspect": "rover graph introspect https://api.thegraph.com/subgraphs/name/wyze/treasure-marketplace > graphql/schemas/prod-schema.graphql",
     "pullschema:dev": "npx apollo service:download --endpoint=https://api.thegraph.com/subgraphs/name/wyze/treasure-marketplace-dev graphql-schema-dev.json",
     "codegen": "graphql-codegen --config codegen.yml",
-    "codegen:dev": "graphql-codegen --config codegen.dev.yml"
+    "codegen:dev": "graphql-codegen --config codegen.dev.yml",
+    "codegen:next": "graphql-codegen --config codegen-next.yml",
+    "codegen:next-dev": "graphql-codegen --config codegen-next.dev.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",

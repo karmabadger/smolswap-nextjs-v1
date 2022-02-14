@@ -4,7 +4,7 @@ import {
   NormalizedCacheObject,
 } from "@apollo/client";
 
-const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
+const createApolloTMClient = (): ApolloClient<NormalizedCacheObject> => {
   const client = new ApolloClient({
     uri: process.env.NEXT_PUBLIC_SUBGRAPH_URL,
     cache: new InMemoryCache(),
@@ -12,4 +12,25 @@ const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
   return client;
 };
 
-export default createApolloClient;
+const createApolloTMNextClient = (): ApolloClient<NormalizedCacheObject> => {
+  const client = new ApolloClient({
+    uri: process.env.NEXT_PUBLIC_SUBGRAPH_URL_NEXT,
+    cache: new InMemoryCache(),
+  });
+  return client;
+};
+
+const createApolloBridgeworldClient =
+  (): ApolloClient<NormalizedCacheObject> => {
+    const client = new ApolloClient({
+      uri: process.env.NEXT_PUBLIC_SUBGRAPH_URL_BRIDGEWORLD,
+      cache: new InMemoryCache(),
+    });
+    return client;
+  };
+
+export {
+  createApolloTMClient,
+  createApolloTMNextClient,
+  createApolloBridgeworldClient,
+};

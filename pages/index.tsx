@@ -14,7 +14,7 @@ const Home: NextPage = () => {
           name="description"
           content="Smolswap: a decentralized aggregator for smol swaps"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
 
       <main className={styles.main}>
