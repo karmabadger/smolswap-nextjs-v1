@@ -10,40 +10,53 @@ import { Box } from "@mui/material";
 import Navbar from "@components/navbar";
 import Footer from "@components/footer";
 import ClientOnly from "@components/client-only/ClientOnly";
-import { useGetCollectionsQuery } from "@graphql/generated/next/react-apollo";
+import {
+  Collection,
+  useGetCollectionsQuery,
+} from "@graphql/generated/next/react-apollo";
+
+import { useAtom } from "jotai";
+import collectionsAtom from "@atoms/CollectionsAtom";
 
 interface Props {
   themeMode: string;
   setThemeMode: (arg0: string) => void;
 }
 
-const ClientOnlyLayout: FC<Props> = ({ children, themeMode, setThemeMode }) => {
-  return (
-    <ClientOnly>
-      <Layout themeMode={themeMode} setThemeMode={setThemeMode}>
-        {children}
-      </Layout>
-    </ClientOnly>
-  );
-};
+// const ClientOnlyLayout: FC<Props> = ({ children, themeMode, setThemeMode }) => {
+//   return (
+//     <ClientOnly>
+//       <Layout themeMode={themeMode} setThemeMode={setThemeMode}>
+//         {children}
+//       </Layout>
+//     </ClientOnly>
+//   );
+// };
 
 const Layout: FC<Props> = ({ children, themeMode, setThemeMode }) => {
-  // useQuery
-
   const { data, loading, error } = useGetCollectionsQuery();
+  const [collections, setCollections] = useAtom(collectionsAtom);
+
+  useEffect(() => {
+    if (!loading && !error) {
+      if (data !== undefined && data.collections !== undefined) {
+        setCollections(data.collections as Collection[]);
+      }
+    }
+  }, [data, setCollections, loading, error]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log(data);
-  console.log(
-    process.env.NEXT_PUBLIC_SUBGRAPH_URL,
-    process.env.NEXT_PUBLIC_CHAIN_IDS
-  );
+  //   console.log(data);
+  //   console.log(
+  //     process.env.NEXT_PUBLIC_SUBGRAPH_URL,
+  //     process.env.NEXT_PUBLIC_CHAIN_IDS
+  //   );
 
   return (
     <ClientOnly>
-      <Navbar collections={[]} />
+      <Navbar collections={data?.collections} />
       <Toolbar />
 
       <main>{children}</main>

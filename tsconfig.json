@@ -28,7 +28,8 @@
       "@context/*": ["./context/*"],
       "@graphql/*": ["./graphql/*"],
       "@providers/*": ["./providers/*"],
-      "@utilities/*": ["./utilities/*"]
+      "@utilities/*": ["./utilities/*"],
+      "@atoms/*": ["./atoms/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

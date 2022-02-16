@@ -11,9 +11,10 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
+import NavbarDrawer from "./drawer/NavbarDrawer";
+
 // import RightSideBox from "./RightSide/RightSideBox";
-// import LeftSideBox from "./LeftSide/LeftSideBox";
-// import NavbarDrawer from "./Drawer/NavbarDrawer";
+import LeftSideBox from "./leftside/LeftSideBox";
 
 const drawerWidth = 350;
 
@@ -49,7 +50,6 @@ const Navbar: FC<Props> = ({
   //   openQuickCheckoutModal,
   //   setOpenQuickCheckoutModal,
 }) => {
-  //   console.log(collections);
   const theme = useTheme();
   const matchesDownMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesDownSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -78,14 +78,12 @@ const Navbar: FC<Props> = ({
             <MenuIcon />
           </IconButton>
 
-          {/* <LeftSideBox
-            handleDrawerOpen={handleDrawerOpen}
-            open={open}
+          <LeftSideBox
             matchesDownMD={matchesDownMD}
             matchesDownSM={matchesDownSM}
             collections={collections}
           />
-          <RightSideBox
+          {/* <RightSideBox
             matchesDownMD={matchesDownMD}
             matchesDownSM={matchesDownSM}
             openSettingsModal={openSettingsModal}
@@ -96,14 +94,14 @@ const Navbar: FC<Props> = ({
         </Toolbar>
       </AppBar>
 
-      {/* <NavbarDrawer
+      <NavbarDrawer
         handleDrawerClose={handleDrawerClose}
         open={open}
         drawerWidth={drawerWidth}
         matchesDownMD={matchesDownMD}
         matchesDownSM={matchesDownSM}
         collections={collections}
-      /> */}
+      />
     </Box>
   );
 };
