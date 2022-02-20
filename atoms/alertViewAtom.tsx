@@ -89,72 +89,104 @@ class SnackBar {
   }
 }
 
-class AlertView {
-  public alertList: Alert[] = [];
-  public alertComponentList: JSX.Element[] = [];
-  public snackBarList: SnackBar[] = [];
-  public snackBarComponentList: JSX.Element[] = [];
+// class AlertView {
+//   public alertList: Alert[] = [];
+//   public alertComponentList: JSX.Element[] = [];
+//   public snackBarList: SnackBar[] = [];
+//   public snackBarComponentList: JSX.Element[] = [];
 
-  public addAlert(message: string, severity: string, variant: string): void {
-    this.alertList.push(new Alert(message, severity, variant));
-  }
+//   public removeAlert(alert: Alert): () => void {
+//     return () => {
+//       for (let i = 0; i < this.alertList.length; i++) {
+//         if (this.alertList[i] === alert) {
+//           this.alertList.splice(i, 1);
+//           this.alertComponentList.splice(i, 1);
+//         }
+//       }
+//     };
+//   }
 
-  public addTimedAlert(
-    message: string,
-    severity: string,
-    variant: string,
-    timeout: number,
-    progressBarActive: boolean
-  ): void {
-    this.alertList.push(
-      new Alert(
-        message,
-        severity,
-        variant,
-        null,
-        true,
-        timeout,
-        progressBarActive
-      )
-    );
-  }
+//   public addAlert(message: string, severity: string, variant: string): void {
+//     const alert = new Alert(message, severity, variant);
+//     this.alertList.push(alert);
+//   }
 
-  public addStandardSnackBar(
-    message: string,
-    severity: string,
-    variant: string
-  ): void {
-    this.snackBarList.push(new SnackBar(message, severity, variant));
-  }
+//   public addTimedAlert(
+//     message: string,
+//     severity: string,
+//     variant: string,
+//     timeout: number,
+//     progressBarActive: boolean
+//   ): void {
+//     this.alertList.push(
+//       new Alert(
+//         message,
+//         severity,
+//         variant,
+//         null,
+//         true,
+//         timeout,
+//         progressBarActive
+//       )
+//     );
+//   }
 
-  public addTimedSnackBar(
-    message: string,
-    severity: string,
-    variant: string,
-    timeout: number,
-    progressBarActive: boolean
-  ): void {
-    this.snackBarList.push(
-      new SnackBar(
-        message,
-        severity,
-        variant,
-        null,
-        true,
-        timeout,
-        progressBarActive
-      )
-    );
-  }
-}
+//   public addStandardSnackBar(
+//     message: string,
+//     severity: string,
+//     variant: string
+//   ): void {
+//     this.snackBarList.push(new SnackBar(message, severity, variant));
+//   }
 
-const alertViewAtom = atom<AlertView>(new AlertView());
+//   public addTimedSnackBar(
+//     message: string,
+//     severity: string,
+//     variant: string,
+//     timeout: number,
+//     progressBarActive: boolean
+//   ): void {
+//     this.snackBarList.push(
+//       new SnackBar(
+//         message,
+//         severity,
+//         variant,
+//         null,
+//         true,
+//         timeout,
+//         progressBarActive
+//       )
+//     );
+//   }
+// }
 
-const useAlertView = () => {
-  const alertView = useAtom(alertViewAtom);
-  return alertView;
+// const alertViewAtom = atom<AlertView>(new AlertView());
+// const useAlertView = () => {
+//   const alertView = useAtom(alertViewAtom);
+//   return alertView;
+// };
+
+const alertListAtom = atom<Alert[]>([]);
+const useAlertList = () => {
+  const alertList = useAtom(alertListAtom);
+  return alertList;
 };
 
-export default alertViewAtom;
+const snackbarListAtom = atom<SnackBar[]>([]);
+const useSnackBarsList = () => {
+  const snackbarList = useAtom(snackbarListAtom);
+  return snackbarList;
+};
 
-export { Alert, SnackBar, AlertView, useAlertView };
+// export default alertViewAtom;
+
+export {
+  Alert,
+  SnackBar,
+  // AlertView,
+  // useAlertView,
+  alertListAtom,
+  useAlertList,
+  snackbarListAtom,
+  useSnackBarsList,
+};

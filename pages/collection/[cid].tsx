@@ -216,7 +216,7 @@ const CollectionMainPage: FC<CollectionMainPageProps> = ({ collection }) => {
     },
   });
 
-  console.log("collectionListedTokenIdsRes", collectionListedTokenIdsRes);
+  // console.log("collectionListedTokenIdsRes", collectionListedTokenIdsRes);
 
   const listings: CollectionListingsListingDataItem[] =
     collectionListingsRes.data?.listings || [];
@@ -236,7 +236,7 @@ const CollectionMainPage: FC<CollectionMainPageProps> = ({ collection }) => {
     collectionMetadataRes.data?.tokens || [];
 
   if (collectionMetadataRes.error) {
-    console.log("collectionMetadataRes.error", collectionMetadataRes.error);
+    console.error("collectionMetadataRes.error", collectionMetadataRes.error);
   }
 
   const tokenMetadataDict: { [key: string]: CollectionsMetadataDataItem } =
@@ -266,7 +266,7 @@ const CollectionMainPage: FC<CollectionMainPageProps> = ({ collection }) => {
 
   const NumberOfColumns = Math.floor(gridWidth / cardWidthWithMargin);
 
-  console.log("gridWidth", gridWidth);
+  // console.log("gridWidth", gridWidth);
   return (
     <Box
       id="collections-main-page"

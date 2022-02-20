@@ -19,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 
 const DetailsTabPanel = ({ value, index, item, token, collection }) => {
 
-    console.log("collection", collection);
+    // console.log("collection", collection);
     return (
         <TabPanel value={value} index={index}>
             <List dense>

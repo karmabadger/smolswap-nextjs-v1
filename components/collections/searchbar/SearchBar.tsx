@@ -29,9 +29,9 @@ const SearchBar: FC<SearchBarProps> = ({ searchTerm, setSearchTerm }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       setSearchTerm(target.value);
-      console.log("searching for:", target.value);
+    //   console.log("searching for:", target.value);
     }
-    console.log(e.target, e.key);
+    // console.log(e.target, e.key);
   };
 
   return (

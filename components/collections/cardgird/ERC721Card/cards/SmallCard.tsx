@@ -56,13 +56,13 @@ const SmallCard: FC<SmallCardProps> = ({
   const [open, setOpen] = useState(false);
 
   if (listIndex <= 0) {
-    console.log(
-      listIndex,
-      listing.pricePerItem,
-      strWeiToETH(listing.pricePerItem),
-      listing,
-      tokenMetadata
-    );
+    // console.log(
+    //   listIndex,
+    //   listing.pricePerItem,
+    //   strWeiToETH(listing.pricePerItem),
+    //   listing,
+    //   tokenMetadata
+    // );
   }
 
   const handleOpen = (event: SyntheticEvent<Element, Event>) => {
@@ -153,7 +153,7 @@ const SmallCard: FC<SmallCardProps> = ({
               width: 128,
             }}
             component="img"
-            image={loadingImgLink}
+            image={`https://marketplace.treasure.lol/_next/image?url=https%3A%2F%2Fipfs.io%2Fipfs%2FQmR87K1oY8dXL4op91A9zcz4hPmCd8JbMVDTTuUnpXyQcr%2F5774%2F5.png&w=1920&q=75`}
             // onClick={handleOpen}
           />
         )}

@@ -1,14 +1,11 @@
 import { FC, useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "@styles/Home.module.css";
-
-import { useQuery } from "@apollo/client";
 
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
+// import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import Snackbar from "@mui/material/Snackbar";
+// import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
@@ -16,6 +13,9 @@ import Button from "@mui/material/Button";
 import Navbar from "@components/navbar";
 import Footer from "@components/footer";
 import ClientOnly from "@components/client-only/ClientOnly";
+import AlertComponent from "@components/alerts/AlertComponent";
+import TimedAlertComponent from "@components/alerts/TimedAlertComponent";
+
 import {
   Collection,
   useGetCollectionsQuery,
@@ -25,7 +25,12 @@ import {
   createCollectionsAtomObj,
   useCollections,
 } from "@atoms/collectionsAtom";
-import { useAlertView } from "@atoms/alertViewAtom";
+import {
+  Alert,
+  Snackbar,
+  useAlertList,
+  // useAlertView,
+} from "@atoms/alertViewAtom";
 
 interface LayoutProps {
   collectionsSSR: Collection[];
@@ -36,39 +41,13 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
 
   const { data, loading, error } = useGetCollectionsQuery();
 
-  const [alertView, setAlertView] = useAlertView();
-
-  const [open, setOpen] = useState(true);
-  const handleClick = () => {
-    setOpen(true);
+  const [alertList, setAlertList] = useAlertList();
+  const addAlertItem = (alertItem: Alert) => {
+    setAlertList((alertList) => [...alertList, alertItem]);
   };
-
-  const handleClose = (
-    event: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
+  const removeAlertItem = (alertItem: Alert) => {
+    setAlertList((alertList) => alertList.filter((item) => item !== alertItem));
   };
-
-  const action = (
-    <Box>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </Box>
-  );
 
   useEffect(() => {
     if (!loading && !error) {
@@ -80,6 +59,13 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setCollections, loading, error]);
+
+  useEffect(() => {
+    const alert1 = new Alert("test", "success", "test");
+    const alert2 = new Alert("test", "success", "test");
+    setAlertList([alert1, alert2]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) return <p>Loading...</p>;
 
@@ -110,14 +96,18 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
       <Toolbar />
 
       <Stack sx={{ width: "100%" }} spacing={0}>
-        <Alert severity="error">This is an error alert — check it out!</Alert>
-        <Alert severity="warning">
-          This is a warning alert — check it out!
-        </Alert>
-        <Alert severity="info">This is an info alert — check it out!</Alert>
-        <Alert severity="success">
-          This is a success alert — check it out!
-        </Alert>
+        {alertList.map((alertEl, index) => (
+          <TimedAlertComponent
+            // severity="error"
+            onClose={() => removeAlertItem(alertEl)}
+            key={index}
+            open={true}
+            setOpen={() => {}}
+            timeout={5000}
+          >
+            Timed
+          </TimedAlertComponent>
+        ))}
       </Stack>
 
       <Stack sx={{ width: "100%" }} spacing={2}>
@@ -128,11 +118,7 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
           message="Note archived"
           action={action}
         /> */}
-        <Snackbar
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-        >
+        {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert
             onClose={handleClose}
             severity="success"
@@ -140,7 +126,7 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
           >
             This is a success message!
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
       </Stack>
 
       <main>{children}</main>
