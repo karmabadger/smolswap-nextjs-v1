@@ -2,29 +2,31 @@ import { FC } from "react";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
 
 import Typography from "@mui/material/Typography";
 
 import { styled, useTheme } from "@mui/material/styles";
 
 import { collectionNameToPath } from "@utils/data/collectionData";
-import { Collection } from "@graphql/generated/next/react-apollo";
+import { Collection } from "@graphql/generated/marketplace/react-apollo";
 import Link from "next/link";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   zIndex: theme.zIndex.modal,
 }));
 
-interface VirtualizedListProps {
+interface ResultsListProps {
   widthValue: number;
   collections: Collection[];
+  selectedIndex: number;
 }
 
-const VirtualizedList: FC<VirtualizedListProps> = ({
+const ResultsList: FC<ResultsListProps> = ({
   widthValue,
   collections,
+  selectedIndex,
 }) => {
-  console.log("VLIST", collections, widthValue);
   const theme = useTheme();
   const baseRoute = process.env.NEXT_PUBLIC_BASE_ROUTE;
 
@@ -44,7 +46,11 @@ const VirtualizedList: FC<VirtualizedListProps> = ({
         }}
       >
         {collections.map((collection, index) => (
-          <ListItem button sx={{ paddingLeft: "48px" }} key={index}>
+          <ListItemButton
+            selected={index === selectedIndex}
+            sx={{ paddingLeft: "48px" }}
+            key={index}
+          >
             <Link
               href={`${baseRoute}collection/${collectionNameToPath(
                 collection.name
@@ -55,11 +61,11 @@ const VirtualizedList: FC<VirtualizedListProps> = ({
                 <Typography variant="body2">{collection.name}</Typography>
               </a>
             </Link>
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     </StyledBox>
   );
 };
 
-export default VirtualizedList;
+export default ResultsList;

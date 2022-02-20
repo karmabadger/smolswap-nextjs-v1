@@ -9,33 +9,50 @@ import darkTheme from "../styles/theme/darkTheme";
 import lightTheme from "../styles/theme/lightTheme";
 import "../styles/globals.css";
 
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { FC, ReactElement, ReactNode, useState, useEffect } from "react";
 import { NextPage } from "next";
-import { FC, ReactElement, ReactNode, useState } from "react";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { Signer } from "ethers";
 
 import Layout from "../components/layout";
-import { createApolloTMNextClient } from "@utilities/createApolloClient";
 
-import { useAtom } from "jotai";
-import themeModeAtom from "@atoms/themeModeAtom";
+import { Provider } from "jotai";
+import { useTheme } from "@atoms/themeModeAtom";
+import { useThemeMode } from "@atoms/themeModeAtom";
+import { useWallet } from "@atoms/walletAtom";
+
+import { connectWallet, Wallet } from "@utilities/wallet";
+import { useSigner } from "@atoms/signerAtom";
 
 const clientSideEmotionCache = createEmotionCache();
 
-const client = createApolloTMNextClient();
+import {
+  apolloClientTMAtom,
+  useApolloClientTM,
+  apolloClientTMNextAtom,
+  useApolloClientTMNext,
+  apolloClientMarketplaceAtom,
+  useApolloClientMarketplace,
+  apolloClientBridgeworldAtom,
+  useApolloClientBridgeworld,
+} from "atoms/apolloClientAtom";
 
 type AppPropsWithChildren = AppProps & {
   children?: ReactNode;
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [client, setClient] = useApolloClientMarketplace();
   return (
     <ApolloProvider client={client}>
       <CacheProvider value={clientSideEmotionCache}>
-        <MyAppWithTheme
-          router={pageProps.router}
-          Component={Component}
-          pageProps={pageProps}
-        />
+        <Provider>
+          <MyAppWithTheme
+            router={pageProps.router}
+            Component={Component}
+            pageProps={pageProps}
+          />
+        </Provider>
       </CacheProvider>
     </ApolloProvider>
   );
@@ -47,25 +64,36 @@ const MyAppWithTheme: FC<AppPropsWithChildren> = ({
   Component,
   pageProps,
 }) => {
-  const [themeMode, setThemeMode] = useAtom(themeModeAtom);
+  const [themeMode, setThemeMode] = useThemeMode();
+  const [theme, setTheme] = useTheme();
+  const [wallet, setWallet] = useWallet();
+  const [signer, setSigner] = useSigner();
 
-  let theme = lightTheme;
+  useEffect(() => {
+    const wallet: Wallet = new Wallet(themeMode);
+    setWallet(wallet);
 
-  switch (themeMode) {
-    case "dark":
-      theme = darkTheme;
-      break;
-    case "light":
-      theme = lightTheme;
-      break;
-    default:
-      theme = lightTheme;
-  }
+    if (wallet.web3Modal.cachedProvider) {
+      connectWallet(wallet.web3Modal, signer, setSigner);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setWallet, themeMode]);
+
+  // if (pageProps.error) {
+  //   console.error(pageProps.error);
+  //   return (
+  //     <ThemeProvider theme={theme}>
+  //       <CssBaseline />
+  //       <h1>Error!</h1>
+  //     </ThemeProvider>
+  //   );
+  // }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Layout themeMode={themeMode} setThemeMode={setThemeMode}>
+      <Layout collectionsSSR={pageProps.collectionsSSR}>
         <Component {...pageProps} />
       </Layout>
     </ThemeProvider>

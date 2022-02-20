@@ -1,26 +1,22 @@
 import {
   useState,
-  useEffect,
   useRef,
   FC,
   SyntheticEvent,
   KeyboardEventHandler,
+  useEffect,
 } from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
-import { styled, useTheme, alpha } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Popper from "@mui/material/Popper";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import VirtualizedList from "./VirtualizedList/VirtualizedList";
+import ResultsList from "./list/ResultsList";
 
-import {
-  collectionNameToPath,
-  collectionPathToName,
-} from "@utils/data/collectionData";
-import { Collection } from "@graphql/generated/next/react-apollo";
+import { collectionNameToPath } from "@utils/data/collectionData";
+import { Collection } from "@graphql/generated/marketplace/react-apollo";
 import { useRouter } from "next/router";
 
 const Search = styled("div")(({ theme }) => ({
@@ -72,64 +68,61 @@ interface SearchBarProps {
 }
 
 const SearchBar: FC<SearchBarProps> = ({ collections }) => {
+  const router = useRouter();
   const baseRoute = process.env.NEXT_PUBLIC_BASE_ROUTE;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState<boolean>(false);
 
-  const theme = useTheme();
   const ref = useRef(null);
-
-  const router = useRouter();
 
   const handleClick = (e: SyntheticEvent<Element, Event>) => {
     const target = e.target as HTMLInputElement;
-    console.log(target);
     setOpen(true);
     setAnchorEl(target as any);
-    // console.log("width", ref.current.offsetWidth);
   };
 
   const handleOnClickAway = (e: MouseEvent | TouchEvent) => {
-    // console.log('closing..');
     setOpen(false);
   };
 
   const [results, setResults] = useState(collections);
-  // const [searchValue, setSearchValue] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [results]);
 
   const handleOnChange = (e: SyntheticEvent<Element, Event>) => {
     const target = e.target as HTMLInputElement;
-    // setSearchValue(e.target.value);
     const filtered = collections.filter((collection) =>
       collection.name.toLowerCase().includes(target.value.toLowerCase())
     );
     setResults(filtered);
-    // console.log("filtered", filtered);
   };
 
   const handleOnKeyDown: KeyboardEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = (e) => {
     if (e.key === "Enter") {
-      console.log("navigate");
       if (results.length > 0) {
-        // navigate(
-        //   `${baseRoute}collection/${collectionNameToPath(results[0].name)}`,
-        //   {
-        //     replace: false,
-        //   }
-        // );
-
         router.push(
-          `${baseRoute}collection/${collectionNameToPath(results[0].name)}`
+          `${baseRoute}collection/${collectionNameToPath(
+            results[selectedIndex].name
+          )}`
         );
       }
+    } else if (e.key === "ArrowDown") {
+      if (selectedIndex < results.length - 1) {
+        setSelectedIndex(selectedIndex + 1);
+      }
+    } else if (e.key === "ArrowUp") {
+      if (selectedIndex > 0) {
+        setSelectedIndex(selectedIndex - 1);
+      }
     }
+    // console.log(e.key, selectedIndex);
   };
-  // useEffect(() => {
-  //     console.log("width", ref.current.offsetWidth);
-  // }, [ref]);
 
   const id = open ? "simple-popper" : undefined;
 
@@ -182,9 +175,10 @@ const SearchBar: FC<SearchBarProps> = ({ collections }) => {
               },
             ]}
           >
-            <VirtualizedList
+            <ResultsList
               widthValue={ref.current ? (ref.current as any)?.offsetWidth : 0}
               collections={results}
+              selectedIndex={selectedIndex}
             />
           </StyledPopper>
         </Box>

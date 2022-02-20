@@ -11,7 +11,8 @@
     "codegen": "graphql-codegen --config codegen.yml",
     "codegen:dev": "graphql-codegen --config codegen.dev.yml",
     "codegen:next": "graphql-codegen --config codegen-next.yml",
-    "codegen:next-dev": "graphql-codegen --config codegen-next.dev.yml"
+    "codegen:next-dev": "graphql-codegen --config codegen-next.dev.yml",
+    "codegen:m": "graphql-codegen --config codegen-marketplace.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",

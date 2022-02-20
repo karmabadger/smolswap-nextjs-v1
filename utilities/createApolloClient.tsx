@@ -20,6 +20,15 @@ const createApolloTMNextClient = (): ApolloClient<NormalizedCacheObject> => {
   return client;
 };
 
+const createApolloMarketplaceClient =
+  (): ApolloClient<NormalizedCacheObject> => {
+    const client = new ApolloClient({
+      uri: process.env.NEXT_PUBLIC_SUBGRAPH_URL_MARKETPLACE,
+      cache: new InMemoryCache(),
+    });
+    return client;
+  };
+
 const createApolloBridgeworldClient =
   (): ApolloClient<NormalizedCacheObject> => {
     const client = new ApolloClient({
@@ -32,5 +41,6 @@ const createApolloBridgeworldClient =
 export {
   createApolloTMClient,
   createApolloTMNextClient,
+  createApolloMarketplaceClient,
   createApolloBridgeworldClient,
 };

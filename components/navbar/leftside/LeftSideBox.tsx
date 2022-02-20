@@ -1,22 +1,17 @@
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuIcon from "@mui/icons-material/Menu";
+import { FC } from "react";
+import Link from "next/link";
 
-import { styled, useTheme, alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
+
+import { Collection } from "@graphql/generated/marketplace/react-apollo";
 
 import logo from "./Logo/logo.svg";
 
 import SearchBar from "./searchbar/SearchBar";
 
-import SvgIcon from "@mui/material/SvgIcon";
-import Icon from "@mui/material/Icon";
 
-import Link from "next/link";
-
-import Image from "next/image";
-import { Collection } from "@graphql/generated/next/react-apollo";
-import { FC } from "react";
 
 interface PropTypes {
   collections: Collection[];
@@ -29,12 +24,8 @@ const LeftSideBox: FC<PropTypes> = ({
   matchesDownMD,
   collections,
 }) => {
-  //   const theme = useTheme();
-
   const logoLink =
     (process.env.NEXT_PUBLIC_INDEX_REDIRECT_URL as string) || "/";
-
-  console.log(logoLink);
 
   if (matchesDownSM) {
     return (
@@ -46,24 +37,11 @@ const LeftSideBox: FC<PropTypes> = ({
           borderRadius: 1,
         }}
       >
-        <Link
-          href={logoLink}
-          passHref
-          //   style={{
-          //     textDecoration: "none",
-          //     color: theme.palette.text.primary,
-          //     height: "100%",
-          //     display: "flex",
-          //     flexDirection: "column",
-          //     justifyContent: "center",
-          //   }}
-        >
+        <Link href={logoLink} passHref>
           <a>
             <Icon
               sx={{
                 width: "auto",
-
-                // height: '80%',
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
@@ -94,28 +72,14 @@ const LeftSideBox: FC<PropTypes> = ({
           flexGrow: 1,
           display: "flex",
           flexDirection: "row",
-          // bgcolor: 'background.paper',
           borderRadius: 1,
         }}
       >
-        <Link
-          href={logoLink}
-          //   style={{
-          //     textDecoration: "none",
-          //     color: theme.palette.text.primary,
-          //     height: "100%",
-          //     display: "flex",
-          //     flexDirection: "column",
-          //     justifyContent: "center",
-          //   }}
-          passHref
-        >
+        <Link href={logoLink} passHref>
           <a>
             <Icon
               sx={{
                 width: "auto",
-
-                // height: '80%',
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
@@ -149,7 +113,6 @@ const LeftSideBox: FC<PropTypes> = ({
         display: "flex",
         flexDirection: "row",
         alignItems: "stretch",
-        // borderRadius: 1,
       }}
     >
       <Box
@@ -161,24 +124,11 @@ const LeftSideBox: FC<PropTypes> = ({
           px: "0.5rem",
         }}
       >
-        <Link
-          href={logoLink}
-          //   style={{
-          //     textDecoration: "none",
-          //     color: theme.palette.text.primary,
-          //     height: "100%",
-          //     display: "flex",
-          //     flexDirection: "column",
-          //     justifyContent: "center",
-          //   }}
-          passHref
-        >
+        <Link href={logoLink} passHref>
           <a>
             <Icon
               sx={{
                 width: "auto",
-
-                // height: '80%',
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",

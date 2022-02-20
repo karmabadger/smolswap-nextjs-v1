@@ -7,7 +7,7 @@ module.exports = withImages({
     return [
       {
         source: '/',
-        destination: '/collection/smol-brain',
+        destination: '/collection/smol-brains',
         permanent: true,
       }
     ]

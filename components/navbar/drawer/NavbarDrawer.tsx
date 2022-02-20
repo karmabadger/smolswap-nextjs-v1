@@ -17,7 +17,7 @@ import {
   collectionNameToPath,
   collectionPathToName,
 } from "utils/data/collectionData";
-import { Collection } from "@graphql/generated/next/react-apollo";
+import { Collection } from "@graphql/generated/marketplace/react-apollo";
 
 const useStyles = makeStyles({
   paper: {

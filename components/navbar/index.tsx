@@ -13,27 +13,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import NavbarDrawer from "./drawer/NavbarDrawer";
 
-// import RightSideBox from "./RightSide/RightSideBox";
+import RightSideBox from "./rightside/RightSideBox";
 import LeftSideBox from "./leftside/LeftSideBox";
 
 const drawerWidth = 350;
-
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== "open",
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(["margin", "width"], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: `${drawerWidth}px`,
-//     transition: theme.transitions.create(["margin", "width"], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-// }));
 
 interface Props {
   collections: any;
@@ -55,6 +38,9 @@ const Navbar: FC<Props> = ({
   const matchesDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [open, setOpen] = useState(false);
+
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
+  const [openQuickCheckoutModal, setOpenQuickCheckoutModal] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -83,14 +69,14 @@ const Navbar: FC<Props> = ({
             matchesDownSM={matchesDownSM}
             collections={collections}
           />
-          {/* <RightSideBox
-            matchesDownMD={matchesDownMD}
-            matchesDownSM={matchesDownSM}
+          <RightSideBox
+            // matchesDownMD={matchesDownMD}
+            // matchesDownSM={matchesDownSM}
             openSettingsModal={openSettingsModal}
             setOpenSettingsModal={setOpenSettingsModal}
             openQuickCheckoutModal={openQuickCheckoutModal}
             setOpenQuickCheckoutModal={setOpenQuickCheckoutModal}
-          /> */}
+          />
         </Toolbar>
       </AppBar>
 

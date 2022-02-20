@@ -5,12 +5,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { styled } from "@mui/material/styles";
 
 import IconButton from "@mui/material/IconButton";
-import SvgIcon from "@mui/material/SvgIcon";
 
 import DiscordSvgIcon from "./icons/DiscordSvgIcon";
 import TwitterSvgIcon from "./icons/TwitterSvgIcon";
 import EmailSvgIcon from "./icons/EmailSvgIcon";
 import { ChangeEvent, FC, SyntheticEvent } from "react";
+
+import { useThemeMode } from "@atoms/themeModeAtom";
+import { useWallet } from "@atoms/walletAtom";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -59,15 +61,24 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-interface PropType {
-  themeMode: string;
-  setThemeMode: (themeType: string) => void;
-}
+interface FooterProps {}
 
-const Footer: FC<PropType> = ({ themeMode, setThemeMode }) => {
-  const handleSwitchChange = (e: SyntheticEvent<Element, Event>) => {
+const Footer: FC<FooterProps> = ({}) => {
+  const [themeMode, setThemeMode] = useThemeMode();
+  const [wallet, setWallet] = useWallet();
+
+  const handleSwitchChange = async (e: SyntheticEvent<Element, Event>) => {
     const target = e.target as HTMLInputElement;
-    setThemeMode(target.checked ? "dark" : "light");
+
+    const newThemeMode = target.checked ? "dark" : "light";
+    setThemeMode(newThemeMode);
+
+    // if (wallet) {
+    //   const res = await wallet.web3Modal.updateTheme(newThemeMode);
+    //   // console.log("updating theme", newThemeMode, res);
+    // } else {
+    //   // console.log("No wallet found");
+    // }
   };
 
   return (

@@ -1,0 +1,24 @@
+overwrite: true
+schema: "https://api.thegraph.com/subgraphs/name/treasureproject/marketplace"
+documents: "./graphql/schemas/marketplace/**/*.tsx"
+generates:
+  graphql/generated/marketplace/react-apollo.tsx:
+    config:
+      enumValues:
+        Token_orderBy: ../Token_OrderBy#Token_OrderBy
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  graphql.schema.json:
+    plugins:
+      - "introspection"
+  graphql/generated/marketplace/react-query.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: fetch
+      enumValues:
+        Token_orderBy: ../Token_OrderBy#Token_OrderBy

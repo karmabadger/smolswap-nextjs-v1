@@ -4,6 +4,9 @@ type SearchQueryDict = {
 };
 
 function parseSearchQuery(searchQuery: string): SearchQueryDict {
+    if (!searchQuery || searchQuery.length === 0) {
+        return {};
+    }
     const searchQueryDict: SearchQueryDict = {};
     const searchQueryArray = searchQuery.split("&");
 
