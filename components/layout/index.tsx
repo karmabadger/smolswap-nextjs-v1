@@ -16,6 +16,8 @@ import ClientOnly from "@components/client-only/ClientOnly";
 import AlertComponent from "@components/alerts/AlertComponent";
 import TimedAlertComponent from "@components/alerts/TimedAlertComponent";
 
+import { useQueueState } from "rooks";
+
 import {
   Collection,
   useGetCollectionsQuery,
@@ -26,9 +28,10 @@ import {
   useCollections,
 } from "@atoms/collectionsAtom";
 import {
-  Alert,
+  AlertClass,
   Snackbar,
   useAlertList,
+  useAlertListObj,
   // useAlertView,
 } from "@atoms/alertViewAtom";
 
@@ -41,12 +44,34 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
 
   const { data, loading, error } = useGetCollectionsQuery();
 
-  const [alertList, setAlertList] = useAlertList();
-  const addAlertItem = (alertItem: Alert) => {
-    setAlertList((alertList) => [...alertList, alertItem]);
+  const [alertQueue, controls] = useQueueState<AlertClass>([
+    new AlertClass("test1", "", "success"),
+    new AlertClass("test2", "", "success"),
+    // new AlertClass("test3", "", "success"),
+    // new AlertClass("test4", "", "success"),
+    // new AlertClass("test5", "", "success"),
+  ]);
+  const { enqueue, peek, dequeue, length } = controls;
+  // const [alertList, setAlertList] = useAlertList();
+  // const [alertListObj, setAlertListObj] = useAlertListObj();
+  // const [alertList2, setAlertList2] = useState<AlertClass[]>([]);
+  // const alertList = alertListObj.alertList;
+
+  const addAlertItem = (alertItem: AlertClass) => {
+    // setAlertList([...alertList, alertItem]);
+    // alertListObj.alertList.push(alertItem);
+    // setAlertList2(alertListObj.alertList);
+    enqueue(alertItem);
   };
-  const removeAlertItem = (alertItem: Alert) => {
-    setAlertList((alertList) => alertList.filter((item) => item !== alertItem));
+  const removeAlertItem = (id: number) => {
+    // setAlertList(alertList.filter((alert) => alert.id !== id));
+    // alertListObj.alertList.splice(
+    //   alertListObj.alertList.findIndex((alert) => alert.id === id),
+    //   1
+    // );
+    // setAlertList2(alertListObj.alertList);
+    dequeue();
+    console.log("removing alert item", id, alertQueue);
   };
 
   useEffect(() => {
@@ -61,9 +86,14 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
   }, [data, setCollections, loading, error]);
 
   useEffect(() => {
-    const alert1 = new Alert("test", "success", "test");
-    const alert2 = new Alert("test", "success", "test");
-    setAlertList([alert1, alert2]);
+    // const alert1 = new AlertClass("test1", "", "success");
+    // const alert2 = new AlertClass("test2", "", "success");
+    // const alert3 = new AlertClass("test3", "", "success");
+    // const alert4 = new AlertClass("test4", "", "success");
+    // const alert5 = new AlertClass("test5", "", "success");
+    // // setAlertList([alert1, alert2, alert3, alert4, alert5]);
+    // alertListObj.alertList = [alert1, alert2, alert3, alert4, alert5];
+    // setAlertList2(alertListObj.alertList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -96,17 +126,18 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
       <Toolbar />
 
       <Stack sx={{ width: "100%" }} spacing={0}>
-        {alertList.map((alertEl, index) => (
+        {alertQueue.map((alertEl, index) => (
           <TimedAlertComponent
             // severity="error"
-            onClose={() => removeAlertItem(alertEl)}
+            alertObj={alertEl}
+            index={index}
             key={index}
-            open={true}
-            setOpen={() => {}}
-            timeout={5000}
-          >
-            Timed
-          </TimedAlertComponent>
+            onClose={() => {
+              removeAlertItem(alertEl.id);
+              console.log("removing alert", index);
+            }}
+            controls={controls}
+          />
         ))}
       </Stack>
 

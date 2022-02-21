@@ -1,5 +1,6 @@
 import IconButton from "@mui/material/IconButton";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Tooltip from "@mui/material/Tooltip";
 import { FC } from "react";
 
 interface SettingsButtonProps {
@@ -15,14 +16,16 @@ const SettingsButton: FC<SettingsButtonProps> = ({
   };
 
   return (
-    <IconButton
-      color="secondary"
-      aria-label="shopping cart checkout"
-      sx={{ p: "12px", mx: "5px" }}
-      onClick={handleClick}
-    >
-      <SettingsIcon />
-    </IconButton>
+    <Tooltip title="Setting" arrow>
+      <IconButton
+        color="secondary"
+        aria-label="shopping cart checkout"
+        sx={{ p: "12px", mx: "5px" }}
+        onClick={handleClick}
+      >
+        <SettingsIcon />
+      </IconButton>
+    </Tooltip>
   );
 };
 

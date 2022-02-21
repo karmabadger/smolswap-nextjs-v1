@@ -1,6 +1,8 @@
 import { atom, useAtom } from "jotai";
 
 class Alert {
+  public id: number;
+  public title: string;
   public message: string;
   public severity: string;
   public variant: string;
@@ -15,12 +17,15 @@ class Alert {
   public hasAction: boolean;
 
   public onClose = (): void => {};
-  public actionElement = Element;
+  // public actionElement = Element;
+
+  public static count = 0;
 
   constructor(
+    title: string,
     message: string,
     severity: string,
-    variant: string,
+    variant: string = "standard",
     color: string | null = null,
     timed: boolean = false,
     timeout: number = 3000,
@@ -29,6 +34,9 @@ class Alert {
     undoable: boolean = false,
     hasAction: boolean = false
   ) {
+    this.id = Alert.count++;
+
+    this.title = title;
     this.message = message;
     this.severity = severity;
     this.variant = variant;
@@ -61,7 +69,7 @@ class SnackBar {
   public hasAction: boolean;
 
   public onClose = (): void => {};
-  public actionElement = Element;
+  // public actionElement = Element;
   constructor(
     message: string,
     severity: string,
@@ -172,6 +180,15 @@ const useAlertList = () => {
   return alertList;
 };
 
+interface AlertListObj {
+  alertList: Alert[];
+}
+const alertListObjAtom = atom<AlertListObj>({ alertList: [] });
+const useAlertListObj = () => {
+  const alertListObj = useAtom(alertListObjAtom);
+  return alertListObj;
+};
+
 const snackbarListAtom = atom<SnackBar[]>([]);
 const useSnackBarsList = () => {
   const snackbarList = useAtom(snackbarListAtom);
@@ -181,12 +198,15 @@ const useSnackBarsList = () => {
 // export default alertViewAtom;
 
 export {
-  Alert,
-  SnackBar,
+  Alert as AlertClass,
+  SnackBar as SnackBarClass,
   // AlertView,
   // useAlertView,
   alertListAtom,
   useAlertList,
+  type AlertListObj,
+  alertListObjAtom,
+  useAlertListObj,
   snackbarListAtom,
   useSnackBarsList,
 };

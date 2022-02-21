@@ -2,6 +2,7 @@ import { FC } from "react";
 import Link from "next/link";
 
 import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 import { useWallet } from "@atoms/walletAtom";
@@ -17,23 +18,9 @@ const CheckoutButton: FC<CartButtonProps> = ({}) => {
 
   if (wallet == null) {
     return (
-      <IconButton
-        disabled={true}
-        color="secondary"
-        aria-label="shopping cart checkout"
-        sx={{ p: "12px", mx: "5px" }}
-        //   onClick={handleClick}
-      >
-        <ShoppingCartCheckoutIcon />
-      </IconButton>
-    );
-  }
-
-  return (
-    <Link href={"/checkout"} passHref>
-      <a>
+      <Tooltip title="Cart" arrow>
         <IconButton
-          disabled={signer == null}
+          disabled={true}
           color="secondary"
           aria-label="shopping cart checkout"
           sx={{ p: "12px", mx: "5px" }}
@@ -41,6 +28,24 @@ const CheckoutButton: FC<CartButtonProps> = ({}) => {
         >
           <ShoppingCartCheckoutIcon />
         </IconButton>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Link href={"/checkout"} passHref>
+      <a>
+        <Tooltip title="Cart: Please Connect Your Wallet First" arrow>
+          <IconButton
+            disabled={signer == null}
+            color="secondary"
+            aria-label="shopping cart checkout"
+            sx={{ p: "12px", mx: "5px" }}
+            //   onClick={handleClick}
+          >
+            <ShoppingCartCheckoutIcon />
+          </IconButton>
+        </Tooltip>
       </a>
     </Link>
   );

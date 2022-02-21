@@ -63,7 +63,7 @@ const CardGrid: FC<CardGridProps> = ({
 
   //   console.log("rowCount", rowCount, columnCount, count);
 
-  console.log("tokenMetadataList", listings, tokenMetadataList);
+//   console.log("tokenMetadataList", listings, tokenMetadataList);
 
   const Cell: FC<CellProps> = ({ columnIndex, rowIndex, style }) => {
     const index = rowIndex * columnCount + columnIndex;

@@ -2,29 +2,43 @@ import { FC, useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
+import { AlertClass } from "@atoms/alertViewAtom";
 
 interface AlertProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  index: number;
   onClose: () => void;
-  timeout: number;
+  alertObj: AlertClass;
+  controls: any;
 }
 
-const AlertComponent: FC<AlertProps> = ({
-  open,
-  setOpen,
+const TimedAlertComponent: FC<AlertProps> = ({
+  index,
   onClose,
-  timeout,
+  alertObj,
+  controls,
 }) => {
   const [progress, setProgress] = useState(0);
   const progressBarActive = true;
   const progressUnit = 250;
-  const progressNumUnits = timeout / progressUnit;
+  const progressNumUnits = alertObj.timeout / progressUnit;
 
+  const onClose2 = () => {
+    controls.dequeue();
+    console.log("dequeue2");
+  };
+  useEffect(() => {
+    console.log(index, progress, alertObj.timeout, progress > 99);
+    if (progress > 99) {
+      onClose2();
+    }
+  }, [progress]);
+
+  // const
   const handleClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
@@ -57,10 +71,11 @@ const AlertComponent: FC<AlertProps> = ({
     setProgress(0);
     let timeElapsed = 0;
     const timer = setInterval(() => {
-      if (timeElapsed >= timeout) {
-        console.log("clearing timer");
+      // console.log("timer", timeElapsed, progress, timeout);
+      if (timeElapsed >= alertObj.timeout) {
+        console.log("clearing timer", index);
+        onClose2();
         clearInterval(timer);
-        onClose();
       } else {
         timeElapsed += progressUnit;
         setProgress((oldProgress) => {
@@ -79,7 +94,8 @@ const AlertComponent: FC<AlertProps> = ({
   return (
     <Box>
       <Alert severity="error" onClose={() => {}} action={action}>
-        Boxxed timed
+        {alertObj.title ? <AlertTitle>{alertObj.title}</AlertTitle> : null}
+        {alertObj.message}
       </Alert>
       <Box>
         {progressBarActive && (
@@ -98,4 +114,4 @@ const AlertComponent: FC<AlertProps> = ({
   );
 };
 
-export default AlertComponent;
+export default TimedAlertComponent;

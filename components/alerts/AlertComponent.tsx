@@ -1,19 +1,21 @@
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import { FC } from "react";
+import { AlertClass } from "@atoms/alertViewAtom";
 
 interface AlertProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  index: number;
   onClose: () => void;
+  alertObj: AlertClass;
 }
 
-const AlertComponent: FC<AlertProps> = ({ open, setOpen, onClose }) => {
+const AlertComponent: FC<AlertProps> = ({ index, onClose, alertObj }) => {
   const handleClick = () => {
-    setOpen(true);
+    // setOpen(true);
   };
 
   const handleClose = (
@@ -25,7 +27,7 @@ const AlertComponent: FC<AlertProps> = ({ open, setOpen, onClose }) => {
     }
 
     onClose();
-    setOpen(false);
+    // setOpen(false);
   };
 
   const action = (
@@ -46,7 +48,8 @@ const AlertComponent: FC<AlertProps> = ({ open, setOpen, onClose }) => {
 
   return (
     <Alert severity="error" onClose={() => {}} action={action}>
-      This is an error alert — check it out!
+      {alertObj.title ? <AlertTitle>{alertObj.title}</AlertTitle> : null}
+      {alertObj.message}
     </Alert>
   );
 };

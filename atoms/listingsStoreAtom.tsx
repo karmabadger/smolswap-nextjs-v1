@@ -27,6 +27,11 @@ class ListingsStore {
   public getAtomList(): Atom<boolean>[] {
     return this.boolAtomList;
   }
+
+  public useAtom(id: string): [boolean, SetStateAction<boolean>] {
+    //eslintreact-hooks/rules-of-hooks
+    return useAtom(this.boolAtomMap[id]);
+  }
 }
 
 const listingsStoreAtom = atom<ListingsStore>(new ListingsStore());

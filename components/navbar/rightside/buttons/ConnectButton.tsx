@@ -36,7 +36,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({}) => {
   };
 
   return (
-    <Tooltip title="Wallet" arrow>
+    <Tooltip title="Wallet"  arrow>
       <IconButton
         // color={"secondary"}
         // color={theme.palette.secondary}

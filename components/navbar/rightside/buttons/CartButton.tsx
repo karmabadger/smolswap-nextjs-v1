@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Tooltip from "@mui/material/Tooltip";
 
 import { Wallet } from "@utilities/wallet";
 import { useWallet } from "@atoms/walletAtom";
@@ -25,28 +26,32 @@ const CartButton: FC<CartButtonProps> = ({
 
   if (wallet == null) {
     return (
-      <IconButton
-        disabled={true}
-        color="secondary"
-        aria-label="shopping cart checkout"
-        sx={{ p: "12px", mx: "5px" }}
-        // onClick={handleClick}
-      >
-        <ShoppingCartIcon />
-      </IconButton>
+      <Tooltip title="Cart: Please Connect Your Wallet First" arrow>
+        <IconButton
+          disabled={true}
+          color="secondary"
+          aria-label="shopping cart checkout"
+          sx={{ p: "12px", mx: "5px" }}
+          // onClick={handleClick}
+        >
+          <ShoppingCartIcon />
+        </IconButton>
+      </Tooltip>
     );
   }
 
   return (
-    <IconButton
-      disabled={signer == null}
-      color="secondary"
-      aria-label="shopping cart checkout"
-      sx={{ p: "12px", mx: "5px" }}
-      onClick={handleClick}
-    >
-      <ShoppingCartIcon />
-    </IconButton>
+    <Tooltip title="Cart" arrow>
+      <IconButton
+        disabled={signer == null}
+        color="secondary"
+        aria-label="shopping cart checkout"
+        sx={{ p: "12px", mx: "5px" }}
+        onClick={handleClick}
+      >
+        <ShoppingCartIcon />
+      </IconButton>
+    </Tooltip>
   );
 };
 

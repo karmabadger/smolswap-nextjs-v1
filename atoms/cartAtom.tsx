@@ -36,8 +36,8 @@ class SingleBuyOrder {
   constructor(
     listing: Listing,
     collectionAddress: string,
-    standard?: string,
-    quantity?: number
+    standard: string = "ERC721",
+    quantity: number = 1
   ) {
     this.seller = listing.seller;
     this.expires = listing.expires;
@@ -50,8 +50,8 @@ class SingleBuyOrder {
     };
 
     this.collectionAddress = collectionAddress;
-    this.standard = standard || "ERC721";
-    this.quantity = quantity || 1;
+    this.standard = standard;
+    this.quantity = quantity;
   }
 }
 
@@ -85,5 +85,9 @@ class Cart {
     }
   }
 
-  public addItem(item: SingleBuyOrder) {}
+  public addItem(item: SingleBuyOrder) {
+    this.buyOrderList.push(item);
+    this.collectionsDictByAddress.addItemListing(item);
+    this.selectedBooleanList.push(false);
+  }
 }
