@@ -25,7 +25,11 @@
       "@assets/*": ["./assets/*"],
       "@config/*": ["./config/*"],
       "@hooks/*": ["./hooks/*"],
-      "@context/*": ["./context/*"]
+      "@context/*": ["./context/*"],
+      "@graphql/*": ["./graphql/*"],
+      "@providers/*": ["./providers/*"],
+      "@utilities/*": ["./utilities/*"],
+      "@atoms/*": ["./atoms/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

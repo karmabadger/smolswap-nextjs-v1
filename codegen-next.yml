@@ -1,11 +1,11 @@
 overwrite: true
-schema: "https://api.thegraph.com/subgraphs/name/wyze/treasure-marketplace"
-documents: "./graphql/schemas/**/*.tsx"
+schema: "https://api.thegraph.com/subgraphs/name/treasureproject/marketplace-next"
+documents: "./graphql/schemas/next/**/*.tsx"
 generates:
-  graphql/generated/react-apollo.tsx:
+  graphql/generated/next/react-apollo.tsx:
     config:
       enumValues:
-        Token_orderBy: ./Token_OrderBy#Token_OrderBy
+        Token_orderBy: ../Token_OrderBy#Token_OrderBy
     plugins:
       - "typescript"
       - "typescript-operations"
@@ -13,7 +13,7 @@ generates:
   graphql.schema.json:
     plugins:
       - "introspection"
-  graphql/generated/react-query.ts:
+  graphql/generated/next/react-query.ts:
     plugins:
       - typescript
       - typescript-operations
@@ -21,4 +21,4 @@ generates:
     config:
       fetcher: fetch
       enumValues:
-        Token_orderBy: ./Token_OrderBy#Token_OrderBy
+        Token_orderBy: ../Token_OrderBy#Token_OrderBy
