@@ -56,8 +56,6 @@ const useWalletContext = () => {
   const [connected, setConnected] = useConnected();
   const [network, setNetwork] = useNetwork();
 
-  // const [, setWallet] = useAtom(setWalletAtom);
-
   return {
     web3ModalContext,
     signer,
