@@ -14,7 +14,7 @@ import { strWeiToETH } from "utils/data/erc20utils";
 // import getSmolswapContract from "contracts/smolswap/contract.js";
 // import getERC20Contract from "contracts/erc20/contract.js";
 
-import { useWallet } from "@atoms/walletAtom";
+import { useWalletContext } from "@atoms/walletAtom";
 import { Collection } from "@graphql/generated/marketplace/react-apollo";
 import { FC } from "react";
 import { Size } from "@components/collections/size-select/SizeSelectOptions";
@@ -38,7 +38,7 @@ const ERC721Card: FC<ERC721CardProps> = ({
   cardSize,
   listIndex,
 }) => {
-  const [wallet, setWallet] = useWallet();
+  const { account, connectWallet, network, signer } = useWalletContext();
 
   //   const handleBuyItem = async () => {
   //     // if (signer) {

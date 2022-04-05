@@ -61,13 +61,13 @@ const CardGrid: FC<CardGridProps> = ({
 
   const rowCount = columnCount !== 0 ? Math.ceil(count / columnCount) : 1;
 
-  //   console.log("rowCount", rowCount, columnCount, count);
-
-//   console.log("tokenMetadataList", listings, tokenMetadataList);
-
   const Cell: FC<CellProps> = ({ columnIndex, rowIndex, style }) => {
     const index = rowIndex * columnCount + columnIndex;
-    // const item = getItem(columnIndex, rowIndex);
+
+    if (index > listings.length - 1) {
+      const content = "NOT FOUND";
+      return <div style={style}>{content}</div>;
+    }
     const listing = listings[index];
     const tokenMetadata = tokenMetadataDict[listing.token.id];
     if (ercType === "ERC721") {

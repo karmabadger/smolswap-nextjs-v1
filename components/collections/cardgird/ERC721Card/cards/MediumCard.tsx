@@ -18,6 +18,8 @@ import {
   CollectionsMetadataDataItem,
 } from "@customTypes/treasureMarketplaceQueryTypes";
 
+import { useWalletContext } from "@atoms/walletAtom";
+
 interface SmallCardProps {
   collection: Collection;
   listing: CollectionListingsListingDataItem;

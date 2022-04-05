@@ -32,11 +32,12 @@ import {
   CollectionsMetadataDataItem,
 } from "@customTypes/treasureMarketplaceQueryTypes";
 // import { ListingFieldsWithTokenFragmentDoc } from "@graphql/generated/marketplace/react-query";
-import { useSigner } from "@atoms/signerAtom";
 // import getTreasureMarketplaceContract from "contracts/treasure-marketplace/contract";
 // import getSmolswapContract from "contracts/smolswap/contract.js";
 // import getERC20Contract from "contracts/erc20/contract.js";
 // const treasureMarketplace = getContract("treasure-marketplace");
+
+import { useWalletContext } from "@atoms/walletAtom";
 
 interface SmallCardProps {
   collection: Collection;
@@ -52,8 +53,8 @@ const SmallCard: FC<SmallCardProps> = ({
   listIndex,
   // handleBuyItem
 }) => {
-  const [signer, setSigner] = useSigner();
   const [open, setOpen] = useState(false);
+  const { connected, account, signer } = useWalletContext();
 
   if (listIndex <= 0) {
     // console.log(

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -20,18 +20,18 @@ const drawerWidth = 350;
 
 interface Props {
   collections: any;
-  //   openSettingsModal: boolean;
-  //   setOpenSettingsModal: any;
-  //   openQuickCheckoutModal: boolean;
-  //   setOpenQuickCheckoutModal: any;
+  openSettingsModal: boolean;
+  setOpenSettingsModal: any;
+  openQuickCheckoutModal: boolean;
+  setOpenQuickCheckoutModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Navbar: FC<Props> = ({
   collections,
-  //   openSettingsModal,
-  //   setOpenSettingsModal,
-  //   openQuickCheckoutModal,
-  //   setOpenQuickCheckoutModal,
+  openSettingsModal,
+  setOpenSettingsModal,
+  openQuickCheckoutModal,
+  setOpenQuickCheckoutModal,
 }) => {
   const theme = useTheme();
   const matchesDownMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -39,8 +39,8 @@ const Navbar: FC<Props> = ({
 
   const [open, setOpen] = useState(false);
 
-  const [openSettingsModal, setOpenSettingsModal] = useState(false);
-  const [openQuickCheckoutModal, setOpenQuickCheckoutModal] = useState(false);
+  // const [openSettingsModal, setOpenSettingsModal] = useState(false);
+  // const [openQuickCheckoutModal, setOpenQuickCheckoutModal] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);

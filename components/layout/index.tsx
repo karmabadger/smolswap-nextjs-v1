@@ -29,11 +29,13 @@ import {
 } from "@atoms/collectionsAtom";
 import {
   AlertClass,
-  Snackbar,
+  // Snackbar,
   useAlertList,
   useAlertListObj,
   // useAlertView,
 } from "@atoms/alertViewAtom";
+import QuickCheckoutModal from "@components/modals/QuickCheckout/QuickCheckoutModal";
+import SettingsModal from "@components/modals/Settings/SettingsModal";
 
 interface LayoutProps {
   collectionsSSR: Collection[];
@@ -44,35 +46,8 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
 
   const { data, loading, error } = useGetCollectionsQuery();
 
-  const [alertQueue, controls] = useQueueState<AlertClass>([
-    new AlertClass("test1", "", "success"),
-    new AlertClass("test2", "", "success"),
-    // new AlertClass("test3", "", "success"),
-    // new AlertClass("test4", "", "success"),
-    // new AlertClass("test5", "", "success"),
-  ]);
-  const { enqueue, peek, dequeue, length } = controls;
-  // const [alertList, setAlertList] = useAlertList();
-  // const [alertListObj, setAlertListObj] = useAlertListObj();
-  // const [alertList2, setAlertList2] = useState<AlertClass[]>([]);
-  // const alertList = alertListObj.alertList;
-
-  const addAlertItem = (alertItem: AlertClass) => {
-    // setAlertList([...alertList, alertItem]);
-    // alertListObj.alertList.push(alertItem);
-    // setAlertList2(alertListObj.alertList);
-    enqueue(alertItem);
-  };
-  const removeAlertItem = (id: number) => {
-    // setAlertList(alertList.filter((alert) => alert.id !== id));
-    // alertListObj.alertList.splice(
-    //   alertListObj.alertList.findIndex((alert) => alert.id === id),
-    //   1
-    // );
-    // setAlertList2(alertListObj.alertList);
-    dequeue();
-    console.log("removing alert item", id, alertQueue);
-  };
+  const [openCheckoutModal, setOpenCheckoutModal] = useState(false);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   useEffect(() => {
     if (!loading && !error) {
@@ -84,18 +59,6 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setCollections, loading, error]);
-
-  useEffect(() => {
-    // const alert1 = new AlertClass("test1", "", "success");
-    // const alert2 = new AlertClass("test2", "", "success");
-    // const alert3 = new AlertClass("test3", "", "success");
-    // const alert4 = new AlertClass("test4", "", "success");
-    // const alert5 = new AlertClass("test5", "", "success");
-    // // setAlertList([alert1, alert2, alert3, alert4, alert5]);
-    // alertListObj.alertList = [alert1, alert2, alert3, alert4, alert5];
-    // setAlertList2(alertListObj.alertList);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (loading) return <p>Loading...</p>;
 
@@ -122,43 +85,32 @@ const Layout: FC<LayoutProps> = ({ children, collectionsSSR }) => {
 
   return (
     <ClientOnly>
-      <Navbar collections={collectionsData} />
+      <Navbar
+        collections={collectionsData}
+        openQuickCheckoutModal={openCheckoutModal}
+        setOpenQuickCheckoutModal={setOpenCheckoutModal}
+        openSettingsModal={openSettingsModal}
+        setOpenSettingsModal={setOpenSettingsModal}
+      />
       <Toolbar />
 
-      <Stack sx={{ width: "100%" }} spacing={0}>
-        {alertQueue.map((alertEl, index) => (
-          <TimedAlertComponent
-            // severity="error"
-            alertObj={alertEl}
-            index={index}
-            key={index}
-            onClose={() => {
-              removeAlertItem(alertEl.id);
-              console.log("removing alert", index);
-            }}
-            controls={controls}
-          />
-        ))}
-      </Stack>
+      <QuickCheckoutModal
+        open={openCheckoutModal}
+        handleClose={() => {
+          setOpenCheckoutModal(false);
+        }}
+      />
 
-      <Stack sx={{ width: "100%" }} spacing={2}>
-        {/* <Snackbar
-          open={open}
-          // autoHideDuration={6000}
-          onClose={handleClose}
-          message="Note archived"
-          action={action}
-        /> */}
-        {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            This is a success message!
-          </Alert>
-        </Snackbar> */}
-      </Stack>
+      <SettingsModal
+        open={openSettingsModal}
+        handleClose={() => {
+          setOpenSettingsModal(false);
+        }}
+      />
+
+      <Stack sx={{ width: "100%" }} spacing={0}></Stack>
+
+      <Stack sx={{ width: "100%" }} spacing={2}></Stack>
 
       <main>{children}</main>
 

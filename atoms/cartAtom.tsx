@@ -39,6 +39,7 @@ class SingleBuyOrder {
     standard: string = "ERC721",
     quantity: number = 1
   ) {
+    console.log(listing);
     this.seller = listing.seller;
     this.expires = listing.expires;
     this.id = listing.id;

@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import Box from "@mui/material/Box";
 
-import { useWallet } from "@atoms/walletAtom";
+// import { useWallet } from "@atoms/walletAtom";
 
 import CartButton from "./CartButton";
 import CheckoutButton from "./CheckoutButton";
