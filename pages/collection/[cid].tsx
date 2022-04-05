@@ -67,8 +67,8 @@ import {
   CollectionListingsListingDataItem,
   CollectionsMetadataDataItem,
 } from "@customTypes/treasureMarketplaceQueryTypes";
-import { useWallet } from "@atoms/walletAtom";
-import { useSigner } from "@atoms/signerAtom";
+import { useWalletContext } from "@atoms/walletAtom";
+// import { useSigner } from "@atoms/signerAtom";
 import useWindowDimensions from "@hooks/useWindowDimensions";
 
 const drawerWidth = 500;
@@ -132,10 +132,8 @@ interface CollectionMainPageProps {
 const CollectionMainPage: FC<CollectionMainPageProps> = ({ collection }) => {
   const theme = useTheme();
   const router = useRouter();
-  const [wallet, setWallet] = useWallet();
-  const [signer, setSigner] = useSigner();
-  // console.log("signer", signer, signer?.getAddress());
-  // console.log(router.query);
+  const { connectWallet, disconnectWallet, account, signer, connected } =
+    useWalletContext();
 
   const [collections, setCollections] = useCollections();
 
@@ -377,7 +375,7 @@ const CollectionMainPage: FC<CollectionMainPageProps> = ({ collection }) => {
                   sx={{
                     py: 0,
                   }}
-                  disabled={listings && listings.length > 0 && !signer}
+                  disabled={listings && listings.length > 0 && !connected}
                   // onClick={handleOpenQuickAddModal}
                 >
                   Quick Add

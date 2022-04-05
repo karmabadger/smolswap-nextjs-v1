@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
@@ -49,7 +49,7 @@ import UITabPanel from "./TabPanels/UITabPanel";
 import { strWeiToETH, strETHToWei } from "utils/data/erc20utils";
 import { BigNumber } from "ethers";
 
-function a11yProps(index: SVGAnimatedNumberList) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
@@ -62,7 +62,10 @@ interface SettingsModalProps {
 }
 const SettingsModal: FC<SettingsModalProps> = ({ handleClose, open }) => {
   const [tabValue, setTabValue] = useState(0);
-  const handleChangeTabValue = (event, newValue) => {
+  const handleChangeTabValue = (
+    event: SyntheticEvent<Element, Event>,
+    newValue: number
+  ) => {
     setTabValue(newValue);
   };
 

@@ -19,10 +19,7 @@ import Layout from "../components/layout";
 import { Provider } from "jotai";
 import { useTheme } from "@atoms/themeModeAtom";
 import { useThemeMode } from "@atoms/themeModeAtom";
-import { useWallet } from "@atoms/walletAtom";
-
-import { connectWallet, Wallet } from "@utilities/wallet";
-import { useSigner } from "@atoms/signerAtom";
+import { useWalletContext } from "@atoms/walletAtom";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -66,19 +63,12 @@ const MyAppWithTheme: FC<AppPropsWithChildren> = ({
 }) => {
   const [themeMode, setThemeMode] = useThemeMode();
   const [theme, setTheme] = useTheme();
-  const [wallet, setWallet] = useWallet();
-  const [signer, setSigner] = useSigner();
+  const { connectWallet, disconnectWallet, account, signer } =
+    useWalletContext();
 
-  useEffect(() => {
-    const wallet: Wallet = new Wallet(themeMode);
-    setWallet(wallet);
-
-    if (wallet.web3Modal.cachedProvider) {
-      connectWallet(wallet.web3Modal, signer, setSigner);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setWallet, themeMode]);
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [setWallet, themeMode]);
 
   // if (pageProps.error) {
   //   console.error(pageProps.error);

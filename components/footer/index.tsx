@@ -12,7 +12,7 @@ import EmailSvgIcon from "./icons/EmailSvgIcon";
 import { ChangeEvent, FC, SyntheticEvent } from "react";
 
 import { useThemeMode } from "@atoms/themeModeAtom";
-import { useWallet } from "@atoms/walletAtom";
+import { useWalletContext } from "@atoms/walletAtom";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -65,7 +65,7 @@ interface FooterProps {}
 
 const Footer: FC<FooterProps> = ({}) => {
   const [themeMode, setThemeMode] = useThemeMode();
-  const [wallet, setWallet] = useWallet();
+  // const [wallet, setWallet] = useWalletContext();
 
   const handleSwitchChange = async (e: SyntheticEvent<Element, Event>) => {
     const target = e.target as HTMLInputElement;

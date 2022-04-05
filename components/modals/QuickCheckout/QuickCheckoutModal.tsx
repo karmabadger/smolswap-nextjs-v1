@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, SyntheticEvent } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
@@ -50,7 +50,7 @@ import ClickAwayListener from "@mui/base/ClickAwayListener";
 // import RarityTabPanel from "./TabPanels/RarityTabPanel";
 
 import { strWeiToETH, strETHToWei } from "utils/data/erc20utils";
-import { getURL } from "utils/data/metadataUtils";
+// import { getURL } from "utils/data/metadataUtils";
 import { BigNumber } from "ethers";
 
 import CartTabPanel from "./TabPanels/CartTabPanel/CartTabPanel";
@@ -92,56 +92,56 @@ const QuickCheckoutModal: FC<QuickCheckoutModalProps> = ({
   open,
 }) => {
   const [tabValue, setTabValue] = useState(0);
-  const handleChangeTabValue = (event, newValue) => {
+  const handleChangeTabValue = (event: SyntheticEvent<Element, Event>, newValue: number) => {
     setTabValue(newValue);
   };
 
-  const [selectedList, setSelectedList] = useState(
-    cart.cartContextObj.getSelectedBooleanList()
-  );
+  // const [selectedList, setSelectedList] = useState(
+  //   cart.cartContextObj.getSelectedBooleanList()
+  // );
 
   // console.log("selectedListup", selectedList, cart.cartContextObj.getSelectedBooleanList());
-  const [allTrue, setAllTrue] = useState(checkIfAllTrue(selectedList));
-  const [numberOfTrue, setNumberOfTrue] = useState(
-    getNumberOfTrue(selectedList)
-  );
+  // const [allTrue, setAllTrue] = useState(checkIfAllTrue(selectedList));
+  // const [numberOfTrue, setNumberOfTrue] = useState(
+  //   getNumberOfTrue(selectedList)
+  // );
 
-  const [openSureModal, setOpenSureModal] = useState(false);
+  // const [openSureModal, setOpenSureModal] = useState(false);
 
-  useEffect(() => {
-    if (cart.cartContextObj.itemList.length === 0) {
-      setSelectedList([]);
-    }
-    setSelectedList(cart.cartContextObj.getSelectedBooleanList());
-  }, [cart.cartContextObj.itemList.length]);
+  // useEffect(() => {
+  //   if (cart.cartContextObj.itemList.length === 0) {
+  //     setSelectedList([]);
+  //   }
+  //   setSelectedList(cart.cartContextObj.getSelectedBooleanList());
+  // }, [cart.cartContextObj.itemList.length]);
 
-  useEffect(() => {
-    setAllTrue(checkIfAllTrue(selectedList));
-    setNumberOfTrue(getNumberOfTrue(selectedList));
-  }, [selectedList, cart.cartContextObj.itemList.length]);
+  // useEffect(() => {
+  //   setAllTrue(checkIfAllTrue(selectedList));
+  //   setNumberOfTrue(getNumberOfTrue(selectedList));
+  // }, [selectedList, cart.cartContextObj.itemList.length]);
 
-  const handleSelectAll = () => {
-    if (!allTrue) {
-      setSelectedList(selectedList.map(() => true));
-    }
-  };
+  // const handleSelectAll = () => {
+  //   if (!allTrue) {
+  //     setSelectedList(selectedList.map(() => true));
+  //   }
+  // };
 
-  const handleDeselectAll = () => {
-    setSelectedList(selectedList.map(() => false));
-  };
+  // const handleDeselectAll = () => {
+  //   setSelectedList(selectedList.map(() => false));
+  // };
 
-  const handleRemoveAll = () => {
-    console.log("remove all");
-    cart.cartContextObj.removeAllItems();
-    setSelectedList([]);
-  };
+  // const handleRemoveAll = () => {
+  //   console.log("remove all");
+  //   cart.cartContextObj.removeAllItems();
+  //   setSelectedList([]);
+  // };
 
-  const handleClickRemoveAll = () => {
-    setOpenSureModal(true);
-    // console.log('remove all');
-    // cart.cartContextObj.removeAllItems();
-    // setSelectedList([]);
-  };
+  // const handleClickRemoveAll = () => {
+  //   setOpenSureModal(true);
+  //   // console.log('remove all');
+  //   // cart.cartContextObj.removeAllItems();
+  //   // setSelectedList([]);
+  // };
 
   return (
     <Dialog fullScreen onClose={handleClose} open={open}>
@@ -181,7 +181,7 @@ const QuickCheckoutModal: FC<QuickCheckoutModalProps> = ({
         </Box>
 
         <Box>
-          <CartTabPanel
+          {/* <CartTabPanel
             value={tabValue}
             index={0}
             handleSelectAll={handleSelectAll}
@@ -193,18 +193,18 @@ const QuickCheckoutModal: FC<QuickCheckoutModalProps> = ({
             setSelectedList={setSelectedList}
             // openSureModal={openSureModal}
             setOpenSureModal={setOpenSureModal}
-          />
+          /> */}
 
           <SettingsTabPanel value={tabValue} index={1} />
 
-          {open && (
+          {/* {open && (
             <ReviewTabPanel
               value={tabValue}
               index={2}
               numberOfTrue={numberOfTrue}
               selectedList={selectedList}
             />
-          )}
+          )} */}
         </Box>
       </DialogContent>
     </Dialog>
